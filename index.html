@@ -66,22 +66,62 @@
             </form>
         </section>
 
+
+
+        <section class="editarCadastro hidden" id="editarCadastro">
+            <h2>Editar Cadastro de Empresa</h2>
+            <input type="text" placeholder="Digite o ID da Empresa:">
+            <button >Pesquisar</button>
+            <form id="form-cadastroEmpresa">
+                <label for="nomeEmpresa">*Empresa:</label>
+                <input type="text" id="editarNomeEmpresa" name="NomeEmpresa" placeholder="Digite o nome da empresa..." required>
+                <br>
+                <label for="endereco">Endereço:</label>
+                <textarea id="editarEndereco" name="endereco" placeholder="Digite o endereço da sua empresa..."></textarea>
+                <br>
+                <label for="localizacao">Localização:</label>
+                <input type="text" id="editarLocalizacao" name="localizacao" placeholder="Cole o link da sua localização aqui...">
+                <br>
+                <label for="contatoNumber">*Contato:</label>
+                <input type="text" id="editarContatoNumber" name="contatoNumber" placeholder="Digite o número de telefone..." required>
+                <br>
+                <label for="categorias">*Palavras-Chave:</label>
+                <textarea id="editarCategorias" name="categorias" placeholder="Digite Palavras-Chave..." required></textarea>
+                <br>
+            
+                <label for="fotoPerfil">Foto Perfil:</label>
+                <input type="file" id="editarFotoPerfil" name="fotoPerfil" accept="image/*">
+                <br>
+                <label for="fotoCapa">Foto Capa:</label>
+                <input type="file" id="editarFotoCapa" name="fotoCapa" accept="image/*">
+                <br>
+                <button type="button" id="adicionarListaEditar">Adicionar Fotos</button>
+                <br>
+                <div id="listaPreView">
+                    <!-- Lista de candidatos adicionados será exibida aqui -->
+                </div>
+                <button id="SalvarAlteracoes" type="submit">Salvar</button>   
+                <br>
+            </form>
+        </section>
+
     <section class="Comentarios" id="Comentarios">
         <h2>Analizar Comentários!</h2>
-        
+        <ul class="listaNovosComentarios">
+            <li>
+
+            </li>
+        </ul>
         
         <button onclick="copiarLink2()" id="buttonLink2">Compartilhar Link</button>
     </section>
 
     <section class="cadastroCriado hidden" id="cadastroCriado">
-        <h2>Pesquisa Criada com Sucesso!</h2>
+        <h2>Cadastro Criada com Sucesso!</h2>
         
-        <div style="opacity: 0; width: 1px; height: 1px;">
-            <input type="text" id="selectPesquisas2">
-            </input>
-        </div>
+      
         
-        <button onclick="copiarLink2()" id="buttonLink2">Compartilhar Link</button>
+        <button onclick="copiarLink2()" id="buttonLink2">Fechar</button>
     </section>
 
     <footer>
