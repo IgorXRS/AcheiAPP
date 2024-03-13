@@ -1,0 +1,124 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achei - CABE-GO</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="shortcut icon" type="imagex/png" href="./img/icon2.png">
+</head>
+<body>
+    <header>
+        <div id="icon"><i onclick="mostrarCadastro()" title="Cadastra Nova Empresa" class="bi bi-plus-square"></i><i title="Analizar Comentarios" onclick="mostrarResultados()" class="bi bi-card-checklist"></i></div>
+        <img src="./img/logo01SF.png" alt="Achei">
+        <i title="Voltar" onclick="mostrarVotacao()" class="bi bi-arrow-left-square"></i>
+    </header>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="center"><div class="loading-spinner"><img src="./img/icon.png" alt="Achei"></div></div>
+    </div>
+
+
+    <div class="background-login">
+        <div class="login">
+            <h2>Login</h2>
+            <h5 style="color: rgba(194, 189, 189, 0.603); padding-bottom: 30px;">Faça login para acessar </br> o painel de cadastros</h5>
+            <form class="login-form">
+                <input class="text-input" type="email" name="email" placeholder="E-mail"/>
+                <input class="text-input" type="password" name="password" placeholder="Senha"/>
+            </br>
+                <input class="submit-input" type="submit" name="acao" value="Logar!" />
+            </form><!--login-form-->
+        </div><!--login-->
+    </div><!--background-login-->
+    
+        <section class="cadastro hidden" id="cadastroEmpresa">
+            <h2>Cadastro de Nova Empresa</h2>
+            <form id="form-cadastroEmpresa">
+                <label for="nomeEmpresa">*Empresa:</label>
+                <input type="text" id="nomeEmpresa" name="nomeEmpresa" placeholder="Digite o nome da empresa..." required>
+                <br>
+                <label for="endereco">Endereço:</label>
+                <textarea id="endereco" name="endereco" placeholder="Digite o endereço da sua empresa..."></textarea>
+                <br>
+                <label for="localizacao">Localização:</label>
+                <input type="text" id="localizacao" name="localizacao" placeholder="Cole o link da sua localização aqui...">
+                <br>
+                <label for="contatoNumber">*Contato:</label>
+                <input type="text" id="contatoNumber" name="contatoNumber" placeholder="Digite o número de telefone..." required>
+                <br>
+                <label for="categorias">*Palavras-Chave:</label>
+                <textarea id="categorias" name="categorias" placeholder="Digite Palavras-Chave..." required></textarea>
+                <br>
+            
+                <label for="fotoPerfil">Foto Perfil:</label>
+                <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*">
+                <br>
+                <label for="fotoCapa">Foto Capa:</label>
+                <input type="file" id="fotoCapa" name="fotoCapa" accept="image/*">
+                <br>
+                <button type="button" id="adicionarCandidato">Adicionar Fotos</button>
+                <br>
+                <div id="listaPreView">
+                    <!-- Lista de candidatos adicionados será exibida aqui -->
+                </div>
+                <button id="SalvarCadastro" type="submit">Salvar</button>   
+                <br>
+            </form>
+        </section>
+
+    <section class="Comentarios" id="Comentarios">
+        <h2>Analizar Comentários!</h2>
+        
+        
+        <button onclick="copiarLink2()" id="buttonLink2">Compartilhar Link</button>
+    </section>
+
+    <section class="cadastroCriado hidden" id="cadastroCriado">
+        <h2>Pesquisa Criada com Sucesso!</h2>
+        
+        <div style="opacity: 0; width: 1px; height: 1px;">
+            <input type="text" id="selectPesquisas2">
+            </input>
+        </div>
+        
+        <button onclick="copiarLink2()" id="buttonLink2">Compartilhar Link</button>
+    </section>
+
+    <footer>
+        <P>© Copyright 2024 DEVIX - All Rights Reserved</P>
+    </footer>
+
+    <script>
+        function mostrarCadastro() {
+            document.getElementById('cadastroEmpresa').classList.remove('hidden');
+            document.getElementById('sectionVotacao').classList.add('hidden');
+            document.getElementById('resultadosVotacao').classList.add('hidden');
+            document.getElementById('cadastroCriado').classList.add('hidden');
+        }
+
+        function mostrarVotacao() {
+            document.getElementById('cadastroEmpresa').classList.add('hidden');
+            document.getElementById('sectionVotacao').classList.remove('hidden');
+            document.getElementById('resultadosVotacao').classList.add('hidden');
+            document.getElementById('cadastroCriado').classList.add('hidden');
+        }
+
+        function mostrarResultados() {
+            document.getElementById('cadastroEmpresa').classList.add('hidden');
+            document.getElementById('sectionVotacao').classList.add('hidden');
+            document.getElementById('resultadosVotacao').classList.remove('hidden');
+            document.getElementById('cadastroCriado').classList.add('hidden');
+        }
+
+    </script>
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.4.0/firebase-storage-compat.js"></script>
+    <script type="module" src="./scrypt.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
+
+
+</body>
+</html>

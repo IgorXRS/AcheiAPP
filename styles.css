@@ -1,0 +1,472 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #020026;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20PX;
+    height: 70px;
+    width: 100%;
+    background: rgb(1, 0, 17);
+    margin-bottom: 20px;
+    color: white;
+}
+
+header img{
+    width: 120px;
+}
+
+footer > P{
+    font-size: 11px;
+    margin: 20px;
+    color: rgb(228, 228, 228);
+}
+
+section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 80vw;
+    margin-top: 100px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid  rgb(11, 0, 161);
+}
+
+header i{
+    cursor: pointer;
+}
+
+header i:hover{
+    font-weight: bold;
+    color: rgb(172, 0, 252);
+}
+
+
+
+
+
+
+
+
+
+#listaCandidatos img{
+    width: 30px;
+}
+#listaCandidatos li{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: rgb(221, 221, 221);
+    padding: 5px;
+    border-bottom: 1px solid rgb(13, 0, 83);
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.nameCand{
+    width: 160px;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.imgCand{
+    width: 160px;
+    display: flex;
+    justify-content: center;
+}
+
+.topTitulos{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgb(13, 0, 83);
+    border-top: 1px solid rgb(13, 0, 83);
+    padding: 5px;
+
+}
+
+
+.cadastro h2{
+    color: rgb(235, 235, 235);
+    border-left: 5px solid rgb(8, 0, 51);
+    padding-left: 10px;
+    text-transform: uppercase;
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+form label{
+    color: rgb(156, 156, 156);
+    font-weight: bold;
+    font-size: 10px;
+    display: flex;
+    margin-top: 7px;
+    margin-left: 5px;
+}
+
+form > input{
+    margin: 3px;
+    width: 320px;
+    height: 30px;
+    border: none;
+    background: rgb(230, 230, 230);
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+form textarea{
+    margin: 3px;
+    width: 320px;
+    height: 50px;
+    border: none;
+    background: rgb(230, 230, 230);
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    resize: vertical;
+}
+
+form h3{
+    color: rgb(221, 221, 221);
+    padding-left: 10px;
+    text-transform: uppercase;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#adicionarCandidato{
+    background: rgb(8, 0, 51);
+    border: none;
+    border-radius: 10px;
+    height: 30px;
+    color: white;
+    padding: 5px;
+    margin: 10px;
+}
+
+#foto1Candidato{
+    height: 40px;
+}
+
+#SalvarCadastro{
+    background: rgb(8, 0, 51);
+    border: none;
+    border-radius: 10px;
+    height: 30px;
+    color: white;
+    padding: 5px;
+    margin: 10px;
+    width: 180px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-left: 70px;
+    cursor: pointer;
+}
+
+#SalvarCadastro:hover {
+    outline: 1px solid white;
+    box-shadow: 5px 2px 10px rgba(0, 0, 0, 0.644);
+}
+
+.hidden {
+    display: none;
+}
+
+#buttonLink, #buttonLink2{
+    background: rgb(0, 121, 10);
+    border: none;
+    border-radius: 10px;
+    height: 30px;
+    color: white;
+    padding: 10px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#buttonLink2{
+    margin-top: 30px;
+}
+
+
+@media screen and (max-width: 350px) {
+    .imgCand{
+        width: 45%;
+    }
+    .nameCand{
+        width:  45%;
+    }
+
+    .candidatoResultado{
+        width: 100%;
+  }
+
+  .candidato img{
+    width: 100px;
+    height: 120px;
+}
+
+  .resultadosParciais > p{
+    width: 85%;
+}
+
+.infor > p{
+    width: 100%;
+}
+
+form > input{
+    width: 100%;
+}
+form textarea{
+    width: 100%;
+}
+}
+
+.bi-card-checklist{
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+#icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 320px) {
+
+    .candidato img{
+        width: 150px;
+        height: 170px;
+    }
+
+}
+
+.loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(2px);
+    z-index: 9999;
+    
+  }
+
+  .center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #070063;
+    border-bottom: 4px solid #070063;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+  }
+
+  .loading-spinner img{
+    width: 60px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+
+  /*--------------------------------------------------------------------------------------------------*/
+
+.background-login{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #020026;
+}
+
+.background-logado{
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgb(42, 0, 53);
+}
+
+.login{
+    background: #030036;
+    width: 300px;
+    height: 300px;
+    display: block;
+    text-align: center;
+    padding-top: 30px;
+    border-radius: 20px;
+    box-shadow: 10px 5px 70px rgba(0, 0, 0, 0.644);
+}
+.container-login {
+    display: none;
+    background: #020026;
+    width: 800px;
+    height: auto;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 10px 5px 70px rgba(0, 0, 0, 0.644);
+}
+
+.login h2{
+    margin-bottom: 20;
+    color: white;
+}
+
+.text-input{
+    padding-left: 5px;
+    margin-bottom: 15px;
+    width: 200px;
+    height: 30px;
+}
+
+
+
+textarea:focus, input:focus, select:focus {
+box-shadow: 0 0 0 0;
+border: 0 none;
+outline: 0;
+}
+
+.submit-input{
+    width: 40%;
+    height: 30px;
+    color: white;
+    background: #010013;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.submit-input:hover{
+    outline: 1px solid white;
+    box-shadow: 5px 2px 10px rgba(0, 0, 0, 0.644);
+}
+
+.logout{
+    position: relative;
+    background-color: rgb(28, 0, 39);
+    border-radius: 50%;
+    padding: 10px;
+    right: -235px;
+    top: -30px;
+    transform: translateY(-40px);
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.527);
+}
+
+.logout:hover{
+    color: rgb(203, 0, 221);
+    font-weight: 600;
+}
+
+
+
+@media only screen and (max-width: 1000px)  {
+
+    .container-login{
+        width: 80%;
+    }
+
+    #cadastrar{
+        width: 30vw;
+    }
+
+    #datetime{
+        width: 30vw;
+    }
+
+    .logout{
+        position: absolute;
+        right: 8vw;
+        top: inherit;
+        transform: translateY(-40px);
+    }
+    
+    
+}
+
+@media only screen and (max-height: 700px)  {
+    .test{
+        position: initial;
+        padding-top: 30px;
+    }
+
+    .background-login{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+#fotoPerfilImg {
+    width: 80px;
+    border-radius: 30%;
+    border: 2px solid rgb(75, 75, 75);
+    margin-left: 30px;
+    transform: translateY(40px);
+}
+
+.perfilCaixa{
+    background: linear-gradient(#06012265 20%, #020026 80%);
+    width: 340px;
+    height: 160px;
+   padding-top: 50px;
+    transform: translateY(-160px);
+    margin-bottom: -140px;
+}
+
+#fotoCapaImg {
+    width: 340px;
+    background: red;
+    height: 160px;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------*/
+
+#Comentarios h2 {
+    color: white;
+}
