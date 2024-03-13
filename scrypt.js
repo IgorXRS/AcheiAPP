@@ -211,4 +211,66 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
 
+    //----------------- Vizualizar Comentarios ---------------------------------------
+
+    const listaNovosComentarios = document.querySelector('.listaNovosComentarios');
+
+    // Função para obter e exibir comentários
+    async function carregarComentarios(empresaID) {
+        try {
+            // Consultar os comentários no Firestore para uma empresa específica
+            const comentariosSnapshot = await db.collection(`comentarios/${empresaID}/comentariosInternos`).get();
+
+            // Limpar a lista de novos comentários
+            listaNovosComentarios.innerHTML = '';
+
+            // Iterar sobre os documentos retornados
+            comentariosSnapshot.forEach((doc) => {
+                const comentario = doc.data();
+                const comentarioID = doc.id;
+
+                // Criar um novo item de lista para cada comentário
+                const novoItem = document.createElement('li');
+                novoItem.innerHTML = `
+                <div style="color: #fff">
+                    <strong>Nome:</strong> ${comentario.nome}<br>
+                    <strong>Nota:</strong> ${comentario.nota}<br>
+                    <strong>Texto:</strong> ${comentario.texto}<br>
+                    <strong>Status:</strong> ${comentario.status}<br>
+                </div>
+                `;
+
+                // Adicionar um botão para alterar o status
+                const botaoStatus = document.createElement('button');
+                botaoStatus.textContent = 'Alterar Status';
+                botaoStatus.addEventListener('click', async () => {
+                    // Alterar o status no Firestore
+                    console.log(comentarioID)
+                    console.log(comentario.empresaID)
+                    const comentarioRef = db.collection('comentarios').doc(empresaID).collection('comentariosInternos').doc(comentarioID);
+                    console.log(comentarioRef)
+                    await comentarioRef.update({
+                        status: !comentario.status
+                    }); 
+                    // Recarregar os comentários após a alteração
+                    carregarComentarios('451515');
+                });
+
+                // Adicionar o botão à lista de novos comentários
+                novoItem.appendChild(botaoStatus);
+
+                // Adicionar o item à lista de novos comentários
+                listaNovosComentarios.appendChild(novoItem);
+            });
+        } catch (error) {
+            console.error('Erro ao carregar comentários:', error);
+        }
+    }
+
+    // Chamar a função para carregar os comentários ao carregar a página
+    // Substitua '451515' pelo ID da empresa desejada
+    carregarComentarios('451515');
+
+
+
 });
