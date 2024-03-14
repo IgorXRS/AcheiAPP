@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 categorias,
                 fotoPerfilURL,
                 fotoCapaURL,
-                status: false,
+                status: true,
                 empresaID,
             };
     
