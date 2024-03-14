@@ -1,0 +1,160 @@
+.headerComent {
+    display: flex;
+    background: rgb(56, 56, 56);
+    width: 300;
+    height: 40px;
+    border-radius: 5px 5px 0px 0px;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.headerComentAtivo {
+    background: rgb(0, 136, 18);
+}
+
+.bi-star-fill{
+    color: yellow;
+}
+
+.textoComent {
+    width: 300;
+    height: auto;
+    padding: 20px;
+    background-color: rgb(230, 230, 230);
+    color: black;
+    border-radius: 5px;
+    transform: translateY(-5px);
+}
+
+.statusComent {
+    color: aliceblue;
+}
+
+.botaoStatus {
+    background: rgb(2, 0, 22);
+    border: none;
+    color: white;
+    padding: 10px;
+    width: 100px;
+    border-radius: 5px;
+    border: 1px solid #5c5c5c;
+}
+
+.botaoStatus:hover{
+    background: rgb(6, 1, 66);
+}
+
+.botaoExcluir:hover{
+    background: rgb(63, 0, 0);
+}
+
+.botaoExcluir {
+    background: rgb(39, 0, 0);
+    border: none;
+    color: white;
+    padding: 10px;
+    width: 100px;
+    border-radius: 5px;
+    border: 1px solid #5c5c5c;
+}
+
+.novoItemBtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 10px 20px;
+    margin-bottom: 20px;
+    background: #5c5c5c;
+    transform: translateY(-10px);
+    border-radius: 5px;
+}
+
+
+.Comentarios h2 {
+    margin-bottom: 10px;
+}
+
+#inputEmpresaID, #statusFilter {
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+#statusFilterBtn {
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background: rgb(2, 0, 22);
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#statusFilterBtn:hover {
+    border: 1px solid #5c5c5c;
+    background: rgb(2, 0, 22);
+    
+}
+
+.Comentarios > p {
+    width: 310px;
+    color: #7c7c7c;
+    font-size: 12px;
+    padding-bottom: 20px;
+    text-align: justify;
+    
+}
+
+
+/* Editar Empresa*/
+
+.editarCadastro > h2 {
+    color: #fff;
+}
+
+.editarCadastro > p {
+    width: 310px;
+    color: #7c7c7c;
+    font-size: 12px;
+    padding-bottom: 20px;
+    text-align: justify;
+}
+
+#empresaPesquisar{
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+#editarEmpresaPesquisar {
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background: rgb(2, 0, 22);
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+
+#editarEmpresaPesquisar:hover {
+    border: 1px solid #5c5c5c;
+    background: rgb(2, 0, 22);
+    
+}

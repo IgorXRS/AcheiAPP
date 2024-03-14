@@ -215,62 +215,193 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     const listaNovosComentarios = document.querySelector('.listaNovosComentarios');
 
+    // Adicione um evento de clique ao botão para aplicar o filtro
+    document.getElementById('statusFilterBtn').addEventListener('click', carregarComentarios);
+
+
     // Função para obter e exibir comentários
     async function carregarComentarios(empresaID) {
         try {
-            // Consultar os comentários no Firestore para uma empresa específica
-            const comentariosSnapshot = await db.collection(`comentarios/${empresaID}/comentariosInternos`).get();
+
+            // Animação de Espera desligada
+            document.getElementById("loadingOverlay").style.display = "flex";
+            // Obtém o valor selecionado do select
+            let statusFiltro = document.getElementById('statusFilter').value;
+            let empresaID = document.getElementById('inputEmpresaID').value || '';
+            
+            // Consultar os comentários no Firestore com base no ID da empresa
+            let query;
+                if (empresaID) {
+                    query = await db.collection(`comentarios/${empresaID}/comentariosInternos`).get();
+                } else {
+                    query = await db.collectionGroup('comentariosInternos').get();
+                }
+            
 
             // Limpar a lista de novos comentários
             listaNovosComentarios.innerHTML = '';
 
             // Iterar sobre os documentos retornados
-            comentariosSnapshot.forEach((doc) => {
+            query.forEach((doc) => {
                 const comentario = doc.data();
                 const comentarioID = doc.id;
 
-                // Criar um novo item de lista para cada comentário
-                const novoItem = document.createElement('li');
+                let estrelas = "";
+                for (let i = 0; i < comentario.nota; i++) {
+                    estrelas += '<i class="bi bi-star-fill"></i>';
+                }
+
+                let status = ""
+                if(comentario.status){
+                     status = 'Desativar';
+                } else {
+                     status = 'Ativar';
+                }
+
+                // Verificar o status do comentário e renderizar com base no filtro selecionado
+                if ((statusFiltro === 'statusTodos') ||
+                (statusFiltro === 'statusTrue' && comentario.status) ||
+                (statusFiltro === 'statusFalse' && !comentario.status)) {
+
+                // Renderizar o comentário
+                const novoItem = document.createElement('div');
+                novoItem.classList.add('novoItem');
                 novoItem.innerHTML = `
-                <div style="color: #fff">
-                    <strong>Nome:</strong> ${comentario.nome}<br>
-                    <strong>Nota:</strong> ${comentario.nota}<br>
-                    <strong>Texto:</strong> ${comentario.texto}<br>
-                    <strong>Status:</strong> ${comentario.status}<br>
+                <div class="comentario" style="color: #fff">
+                    <div class="headerComent ${comentario.status ? 'headerComentAtivo' : ''}">
+                        <p class="nomeComent">${comentario.nome} - ${comentario.empresaID} </p>
+                        <p class="notaComent">${estrelas}<br></p>
+                    </div>
+                    <p class="textoComent">${comentario.texto}</p>
                 </div>
                 `;
 
+
+                const novoItemBtn = document.createElement('div');
+                novoItemBtn.classList.add('novoItemBtn');
+                
                 // Adicionar um botão para alterar o status
                 const botaoStatus = document.createElement('button');
-                botaoStatus.textContent = 'Alterar Status';
+                botaoStatus.classList.add('botaoStatus');
+                botaoStatus.textContent = status;
                 botaoStatus.addEventListener('click', async () => {
+        
+                    let caminhoEmpresaID = comentario.empresaID.toString();
+
                     // Alterar o status no Firestore
-                    console.log(comentarioID)
-                    console.log(comentario.empresaID)
-                    const comentarioRef = db.collection('comentarios').doc(empresaID).collection('comentariosInternos').doc(comentarioID);
+                    const comentarioRef = db.collection('comentarios').doc(caminhoEmpresaID).collection('comentariosInternos').doc(comentarioID);
                     console.log(comentarioRef)
                     await comentarioRef.update({
                         status: !comentario.status
                     }); 
                     // Recarregar os comentários após a alteração
-                    carregarComentarios('451515');
+                    carregarComentarios(empresaID);
+                });
+
+                // Adicionar um botão para excluir o comentário
+                const botaoExcluir = document.createElement('button');
+                botaoExcluir.classList.add('botaoExcluir');
+                botaoExcluir.textContent = 'Excluir';
+                botaoExcluir.addEventListener('click', async () => {
+                    let caminhoEmpresaID = comentario.empresaID.toString();
+
+                    // Excluir o comentário do Firestore
+                    const comentarioRef = db.collection('comentarios').doc(caminhoEmpresaID).collection('comentariosInternos').doc(comentarioID);
+                    await comentarioRef.delete();
+                    // Recarregar os comentários após a exclusão
+                    carregarComentarios(empresaID);
                 });
 
                 // Adicionar o botão à lista de novos comentários
-                novoItem.appendChild(botaoStatus);
+                novoItemBtn.appendChild(botaoStatus);
+                // Adicionar o botão de excluir ao novo item
+                novoItemBtn.appendChild(botaoExcluir);
+
+                novoItem.appendChild(novoItemBtn);
 
                 // Adicionar o item à lista de novos comentários
                 listaNovosComentarios.appendChild(novoItem);
+                }
+                // Animação de Espera desligada
+                document.getElementById("loadingOverlay").style.display = "none";
             });
         } catch (error) {
             console.error('Erro ao carregar comentários:', error);
+            // Animação de Espera desligada
+            document.getElementById("loadingOverlay").style.display = "none";
         }
     }
-
+    let empresaID = document.getElementById('inputEmpresaID').value || '';
     // Chamar a função para carregar os comentários ao carregar a página
     // Substitua '451515' pelo ID da empresa desejada
-    carregarComentarios('451515');
+    carregarComentarios(empresaID);
 
+    //---------------------------- Editar Cadastros ---------------------------------------
 
+ 
+     // Adicionar evento de clique ao botão de pesquisa
+     document.getElementById('editarEmpresaPesquisar').addEventListener('click', async () => {
+         // Obter o ID da empresa digitado pelo usuário
+        const empresaID = document.getElementById('empresaPesquisar').value.trim();
+ 
+         try {
+             // Consultar o Firestore para obter os dados da empresa com base no ID fornecido
+             const empresaDoc = await db.collection('empresas').doc(empresaID).get();
+ 
+             if (empresaDoc.exists) {
+                 // Preencher os campos do formulário de edição com os dados da empresa
+                 const empresaData = empresaDoc.data();
+                 document.querySelector('#editarNomeEmpresa').value = empresaData.nomeEmpresa;
+                 document.querySelector('#editarEndereco').value = empresaData.endereco;
+                 document.querySelector('#editarLocalizacao').value = empresaData.localizacao;
+                 document.querySelector('#editarContatoNumber').value = empresaData.contatoNumber;
+                 document.querySelector('#editarCategorias').value = empresaData.categorias;
+                 
+                 // Adicione o código para preencher outros campos conforme necessário
+ 
+             } else {
+                 console.log('Empresa não encontrada.');
+             }
+         } catch (error) {
+             console.error('Erro ao buscar empresa:', error);
+         }
+     });
+ 
+     const formEditarCadastro = document.getElementById('form-editarCadastroEmpresa');
+
+formEditarCadastro.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Obter o ID da empresa (você pode obter de onde achar apropriado)
+    const empresaID = document.getElementById('empresaPesquisar').value.trim();
+
+    // Obter os novos valores dos campos do formulário de edição
+    const novoNomeEmpresa = document.querySelector('#editarNomeEmpresa').value;
+    const novoEndereco = document.querySelector('#editarEndereco').value;
+    const novaLocalizacao = document.querySelector('#editarLocalizacao').value;
+    const novoContatoNumber = document.querySelector('#editarContatoNumber').value;
+    const novasCategorias = document.querySelector('#editarCategorias').value;
+
+    // Verificar se os campos do formulário são válidos antes de prosseguir
+    // Adicione aqui a lógica para verificar os campos, se necessário
+
+    // Atualizar os dados da empresa no Firestore
+    try {
+        await db.collection('empresas').doc(empresaID).update({
+            nomeEmpresa: novoNomeEmpresa,
+            endereco: novoEndereco,
+            localizacao: novaLocalizacao,
+            contatoNumber: novoContatoNumber,
+            categorias: novasCategorias,
+            // Adicione outras atualizações conforme necessário
+        });
+
+        console.log('Dados da empresa atualizados com sucesso.');
+
+        // Adicione o código para exibir uma mensagem de sucesso ou redirecionar o usuário após a atualização
+    } catch (error) {
+        console.error('Erro ao atualizar dados da empresa:', error);
+    }
+});
 
 });
