@@ -372,6 +372,16 @@ document.addEventListener('DOMContentLoaded', async function() {
                  document.querySelector('#editarLocalizacao').value = empresaData.localizacao;
                  document.querySelector('#editarContatoNumber').value = empresaData.contatoNumber;
                  document.querySelector('#editarCategorias').value = empresaData.categorias;
+
+                 const whastConfirmeEditar = document.getElementById('whastConfirmeEditar');
+
+                 if (empresaData.temWhastapp === "Sim") {
+                    whastConfirmeEditar.checked = true; // Marque a checkbox
+                  } else {
+                    whastConfirmeEditar.checked = false; // Desmarque a checkbox
+                  }
+
+                  console.log(empresaData.temWhastapp);
                  
  
              } else {
@@ -403,6 +413,14 @@ formEditarCadastro.addEventListener('submit', async (event) => {
     const novaLocalizacao = document.querySelector('#editarLocalizacao').value;
     const novoContatoNumber = document.querySelector('#editarContatoNumber').value;
     const novasCategorias = document.querySelector('#editarCategorias').value;
+    const minhaCheckbox = document.getElementById('whastConfirmeEditar');
+         
+        let temWhastappEdit = '';
+            if (minhaCheckbox.checked) {
+                temWhastappEdit = 'Sim';
+            } else {
+                temWhastappEdit = 'Não';
+            }
 
     // Obter as imagens selecionadas
     const fotoPerfilFileEdit = document.querySelector('#editarFotoPerfil').files[0];
@@ -475,7 +493,8 @@ formEditarCadastro.addEventListener('submit', async (event) => {
             contatoNumber: novoContatoNumber,
             categorias: novasCategorias,
             fotoPerfilURL: fotoPerfilURLEdit,
-            fotoCapaURL: fotoCapaURLEdit
+            fotoCapaURL: fotoCapaURLEdit,
+            temWhastapp: temWhastappEdit,
         });
 
         console.log('Dados da empresa atualizados com sucesso.');
