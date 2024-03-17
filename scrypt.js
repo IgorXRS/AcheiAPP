@@ -345,6 +345,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         const empresaID = document.getElementById('empresaPesquisar').value.trim();
  
          try {
+            // Animação de Espera ligada
+            document.getElementById("loadingOverlay").style.display = "block";
+
              // Consultar o Firestore para obter os dados da empresa com base no ID fornecido
              const empresaDoc = await db.collection('empresas').doc(empresaID).get();
  
@@ -357,13 +360,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                  document.querySelector('#editarContatoNumber').value = empresaData.contatoNumber;
                  document.querySelector('#editarCategorias').value = empresaData.categorias;
                  
-                 // Adicione o código para preencher outros campos conforme necessário
  
              } else {
                  console.log('Empresa não encontrada.');
+                 document.getElementById("loadingOverlay").style.display = "none";
              }
+
+             
+             document.getElementById("loadingOverlay").style.display = "none";
          } catch (error) {
              console.error('Erro ao buscar empresa:', error);
+             document.getElementById("loadingOverlay").style.display = "none";
          }
      });
  
@@ -371,6 +378,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 formEditarCadastro.addEventListener('submit', async (event) => {
     event.preventDefault();
+    // Animação de Espera ligada
+    document.getElementById("loadingOverlay").style.display = "block";
 
     // Obter o ID da empresa (você pode obter de onde achar apropriado)
     const empresaID = document.getElementById('empresaPesquisar').value.trim();
@@ -382,24 +391,86 @@ formEditarCadastro.addEventListener('submit', async (event) => {
     const novoContatoNumber = document.querySelector('#editarContatoNumber').value;
     const novasCategorias = document.querySelector('#editarCategorias').value;
 
+    // Obter as imagens selecionadas
+    const fotoPerfilFileEdit = document.querySelector('#editarFotoPerfil').files[0];
+    const fotoCapaFileEdit = document.querySelector('#editarFotoCapa').files[0];
+
     // Verificar se os campos do formulário são válidos antes de prosseguir
     // Adicione aqui a lógica para verificar os campos, se necessário
 
+    const empresaDoc = await db.collection('empresas').doc(empresaID).get();
+    const empresaData = empresaDoc.data();
+    const fotoPerfilAntiga = empresaData.fotoPerfilURL;
+    const fotoCapaAntiga = empresaData.fotoCapaURL;
+    
     // Atualizar os dados da empresa no Firestore
     try {
+            // Referências para o Firebase Storage
+            const storage = firebase.storage();
+            const storageRef = storage.ref();
+    
+            let fotoPerfilURLEdit = null;
+
+            // Verificar se o campo de seleção da foto de perfil foi preenchido e se é um arquivo válido
+            if (fotoPerfilFileEdit && fotoPerfilFileEdit.type && fotoPerfilFileEdit.name) {
+                // Criar referência para a imagem do perfil no Storage
+                const fotoPerfilRef = storageRef.child(`empresas/${empresaData.nomeEmpresa}/fotoPerfil`);
+
+                // Excluir foto antiga do storage
+                fotoPerfilRef.delete().then(() => {
+                    console.log('Foto Antiga excluída com sucesso.');
+                  }).catch((error) => {
+                    console.error('Erro ao excluir o arquivo:', error);
+                  });
+
+                // Fazer upload da imagem do perfil para o Storage
+                await fotoPerfilRef.put(fotoPerfilFileEdit);
+
+                // Obter a URL da imagem do perfil
+                fotoPerfilURLEdit = await fotoPerfilRef.getDownloadURL();
+            } else {
+                fotoPerfilURLEdit = fotoPerfilAntiga;
+            }
+
+            // Inicializar a variável de URL da imagem de capa
+            let fotoCapaURLEdit = null;
+
+            // Verificar se o campo de seleção da foto de capa foi preenchido e se é um arquivo válido
+            if (fotoCapaFileEdit && fotoCapaFileEdit.type && fotoCapaFileEdit.name) {
+                // Criar referência para a imagem de capa no Storage
+                const fotoCapaRef = storageRef.child(`empresas/${empresaData.nomeEmpresa}/fotoCapa`);
+
+                // Excluir foto antiga do storage
+                fotoCapaRef.delete().then(() => {
+                    console.log('Foto Antiga excluída com sucesso.');
+                  }).catch((error) => {
+                    console.error('Erro ao excluir o arquivo:', error);
+                  });
+
+                // Fazer upload da imagem de capa para o Storage
+                await fotoCapaRef.put(fotoCapaFileEdit);
+
+                // Obter a URL da imagem de capa
+                fotoCapaURLEdit = await fotoCapaRef.getDownloadURL();
+            } else {
+                fotoCapaURLEdit = fotoCapaAntiga;
+            }
         await db.collection('empresas').doc(empresaID).update({
             nomeEmpresa: novoNomeEmpresa,
             endereco: novoEndereco,
             localizacao: novaLocalizacao,
             contatoNumber: novoContatoNumber,
             categorias: novasCategorias,
-            // Adicione outras atualizações conforme necessário
+            fotoPerfilURL: fotoPerfilURLEdit,
+            fotoCapaURL: fotoCapaURLEdit
         });
 
         console.log('Dados da empresa atualizados com sucesso.');
+        document.getElementById("loadingOverlay").style.display = "none";
 
         // Adicione o código para exibir uma mensagem de sucesso ou redirecionar o usuário após a atualização
     } catch (error) {
+        document.getElementById("loadingOverlay").style.display = "none";
         console.error('Erro ao atualizar dados da empresa:', error);
     }
 });
