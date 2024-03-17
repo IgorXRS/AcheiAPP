@@ -59,8 +59,14 @@ header i:hover{
 }
 
 
+.checkbox{
+    display: flex;
+    align-items: center;
+}
 
-
+.checkbox > label {
+    transform: translateY(-3px);
+}
 
 
 

@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Seletor do formulário de cadastro
     const formCadastro = document.querySelector('#form-cadastroEmpresa');
 
+
     formCadastro.addEventListener('submit', async (event) => {
         event.preventDefault();
     
@@ -130,8 +131,19 @@ document.addEventListener('DOMContentLoaded', async function() {
         const nomeEmpresa = document.querySelector('#nomeEmpresa').value;
         const endereco = document.querySelector('#endereco').value;
         const localizacao = document.querySelector('#localizacao').value;
-        const contatoNumber = document.querySelector('#contatoNumber').value;
         const categorias = document.querySelector('#categorias').value;
+
+        const contatoNumber = document.querySelector('#contatoNumber').value;
+        const minhaCheckbox = document.getElementById('whastConfirmeCadastro');
+         
+        let temWhastapp = '';
+            if (minhaCheckbox.checked) {
+                temWhastapp = 'Sim';
+            } else {
+                temWhastapp = 'Não';
+            }
+
+
     
         // Obter as imagens selecionadas
         const fotoPerfilFile = document.querySelector('#fotoPerfil').files[0];
@@ -189,6 +201,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 fotoCapaURL,
                 status: true,
                 empresaID,
+                temWhastapp,
             };
     
             await db.collection('empresas').doc(empresaID.toString()).set(empresaData);
