@@ -509,7 +509,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
 
-// ------------------- Configurar App, Banners e Categorias e Side ------------------------------------------
+// ------------------- Configurar Banners ------------------------------------------
 
 // Definir listaCategorias no escopo global
 const listaCategorias = document.querySelector('.categoriasAPP');
@@ -555,6 +555,155 @@ async function carregarCategorias() {
             listItem.appendChild(categoriaImagem);
             listItem.appendChild(btnExcluir);
             listaCategorias.appendChild(listItem);
+        });
+
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    } catch (error) {
+        console.error('Erro ao carregar categorias:', error);
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    }
+}
+
+// Função para excluir uma categoria
+async function excluirCategoria(categoriaID, nomeImagem) {
+    try {
+        // Ativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "flex";
+
+        // Referências para o Firebase Storage e Firestore
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const db = firebase.firestore();
+
+        // Referência para a imagem no Storage
+        const imagemRef = storageRef.child(`configs/img/${nomeImagem}`);
+
+        // Excluir a imagem do Storage
+        await imagemRef.delete();
+
+        // Excluir os dados da categoria do Firestore
+        await db.collection('configsAPP/paginaHome/bannerCategorias').doc(categoriaID).delete();
+
+        // Recarregar a lista de categorias para refletir as alterações
+        await carregarCategorias();
+
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    } catch (error) {
+        console.error('Erro ao excluir categoria:', error);
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    }
+}
+
+
+// Adicionar nova Categoria ------------
+
+// Adicionando ouvinte de evento para o botão de adicionar categoria
+const btnAdicionarCategoria = document.querySelector('#btnAdicionarCategoria');
+btnAdicionarCategoria.addEventListener('click', adicionarCategoria);
+
+// Função para adicionar uma nova categoria
+async function adicionarCategoria() {
+    try {
+        // Obter os valores dos campos de entrada
+        const novaCategoriaInput = document.querySelector('#novaCategoriaInput').value.trim();
+        const novaImagemInput = document.querySelector('#novaImagemInput').files[0]; // Obtém o arquivo selecionado
+        const nomeImagem = novaImagemInput.name;
+
+        // Verificar se os campos estão vazios
+        if (!novaCategoriaInput || !novaImagemInput) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        // Ativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "flex";
+
+        // Referências para o Firebase Storage
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+
+        // Criar referência para a nova imagem no Storage
+        const novaImagemRef = storageRef.child(`configs/img/${novaImagemInput.name}`);
+
+        // Fazer upload da nova imagem para o Storage
+        await novaImagemRef.put(novaImagemInput);
+
+        // Obter a URL da nova imagem
+        const novaImagemURL = await novaImagemRef.getDownloadURL();
+
+        // Adicionar a nova categoria ao Firestore
+        await db.collection('configsAPP/paginaHome/bannerCategorias').add({
+            categoria: novaCategoriaInput,
+            image: novaImagemURL,
+            nomeImagem: nomeImagem
+        });
+
+        // Limpar os campos de entrada após adicionar a categoria
+        document.querySelector('#novaCategoriaInput').value = '';
+        document.querySelector('#novaImagemInput').value = '';
+
+        // Recarregar a lista de categorias para exibir a nova categoria adicionada
+        await carregarCategorias();
+
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    } catch (error) {
+        console.error('Erro ao adicionar categoria:', error);
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    }
+}
+
+// ------------------- Configurar Slide ------------------------------------------
+
+// Definir listaSlide no escopo global
+const listaSlide = document.querySelector('.SlideAPP');
+
+// Adicionando ouvinte de evento para o botão de carregar Slide
+const btnCarregarSlide = document.querySelector('#btnCarregarSlide');
+btnCarregarSlide.addEventListener('click', carregarSlides);
+
+// Função para carregar e exibir o slide
+async function carregarSlides() {
+    try {
+        // Ativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "flex";
+
+        // Limpar a lista de slide
+        listaSlide.innerHTML = '';
+
+        // Consulta ao Firestore para obter os dados dos slide
+        const querySnapshot = await db.collection('configsAPP').doc('paginaHome').collection('slides').get();
+
+        // Iterar sobre os documentos retornados
+        querySnapshot.forEach((doc) => {
+            const slides = doc.data();
+
+            // Criar elemento HTML para 0 slide
+            const listItem = document.createElement('li');
+            listItem.classList.add('slideItem');
+
+            const slideTitulo = document.createElement('h3');
+            slideTitulo.textContent = slides.title;
+
+            const slideImagem = document.createElement('img');
+            slideImagem.src = slides.image;
+            slideImagem.alt = slides.title;
+
+            // Criar botão de exclusão
+            const btnExcluir = document.createElement('button');
+            btnExcluir.textContent = 'Excluir';
+            btnExcluir.addEventListener('click', () => excluirSlide(doc.id, slides.nomeImagem)); // Passar o nome da imagem ao excluir categoria
+
+            // Adicionar elementos à lista de categorias
+            listItem.appendChild(slideTitulo);
+            listItem.appendChild(slideImagem);
+            listItem.appendChild(btnExcluir);
+            listaSlide.appendChild(listItem);
         });
 
         // Desativar animação de espera

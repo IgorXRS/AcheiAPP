@@ -160,28 +160,115 @@
 }
 
 
+/* tela de configurações APP*/
+
+#adicionarCategoria, #adicionarSlide {
+    border: 1px solid #2f00ff4b;
+    border-radius: 5px;
+}
 
 
-.categoriaItem {
+.configsBannersAPP, #configsSlideAPP > h2{
+    color: white;
+    margin-bottom: 20px;
+}
+
+#btnAdicionarCategoria, #btnAdicionarSlide {
+    width: 150px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background: rgb(2, 0, 22);
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    
+}
+
+#btnAdicionarCategoria, #btnAdicionarSlide:hover {
+    border: 1px solid #5c5c5c;
+}
+
+#btnCarregarCategorias, #btnCarregarSlide {
+    width: 250px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background: rgb(14, 0, 90);
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    
+}
+
+#btnCarregarCategorias, #btnCarregarSlide:hover {
+    border: 1px solid #5c5c5c;
+}
+
+
+#novaCategoriaInput, .adicionarSlide > input {
+    width: 300px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    height: 30px;
+    margin: 10px;
+}
+
+#adicionarCategoria, #adicionarSlide > input{
+    background: #fff;
+    width: 300px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    height: 30px;
+    margin: 10px;
+}
+
+.categoriaItem, #SlideAPP > button{
+
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    background: rgb(2, 0, 22);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 20px;
+    transform: translateY(-70px);
 
 }
 
-.categoriaItem > img{
+
+.categoriaItem, #SlideAPP > button:hover{
+
+    border: 1px solid rgba(255, 255, 255, 0.932);
+
+}
+
+.categoriaItem, #SlideAPP > img{
     width: 300;
     height: 150;
     border-radius: 15px;
-    margin-top: -90px;
+    margin-top: -130px;
 }
 
-.categoriaItem > h3{
+.categoriaItem, #SlideAPP > h3{
     width: 300;
     height: 150;
     text-align: center;
     display: grid;
     align-items: center;
     font-size: 35;
-    transform: translateY(60px);
+    transform: translateY(23px);
     color: #fff;
     text-transform: uppercase;
     background: rgba(4, 0, 44, 0.404);
+    text-shadow: #03001f 0.1em 0.1em 0.2em;
 }

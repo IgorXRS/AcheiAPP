@@ -59,9 +59,9 @@
                 <i title="Analizar Comentarios" class="bi bi-card-checklist logoHome"></i>
                 <h3>ANALIZAR COMENTÁRIOS</h3>
             </div>
-            <div onclick="mostrarComentarios()" class="blocoSimples">
-                <i title="Analizar Comentarios" class="bi bi-card-checklist logoHome"></i>
-                <h3>ANALIZAR COMENTÁRIOS</h3>
+            <div onclick="mostrarConfigsBanners()" class="blocoSimples">
+                <i title="Configurar Banners" class="bi bi-sliders logoHome"></i>
+                <h3>Configurar Banners</h3>
             </div>
             <div class="blocoSimples">
                 <i class="bi bi-coin logoHome"></i>
@@ -71,15 +71,36 @@
     </section>
         
 
-    <section>
-        <h2>Configurar APP</h2>
+    <section class="configsBannersAPP hidden" id="configsBannersAPP">
+        <h2>Banners de Categorias</h2>
         <div id="adicionarCategoria">
             <input type="text" id="novaCategoriaInput" placeholder="Nova Categoria">
+            <br>
             <input type="file" id="novaImagemInput" accept="image/*" placeholder="Selecione uma imagem">
+            <br>
             <button id="btnAdicionarCategoria">Adicionar</button>
         </div>
         <button id="btnCarregarCategorias">Carregar Categorias</button>
         <ul class="categoriasAPP">
+
+        </ul>
+    </section>
+
+    <section class="configsSlideAPP" id="configsSlideAPP">
+        <h2>Banners de Slides</h2>
+        <div id="adicionarSlide">
+            <input type="text" id="slideEmpresaID" placeholder="ID da Empresa...">
+            <br>
+            <input type="text" id="novoTextInput" placeholder="Descrição...">
+            <br>
+            <input type="text" id="novotitleInput" placeholder="Título...">
+            <br>
+            <input type="file" id="novaImagemSlide" accept="image/*" placeholder="Selecione uma imagem">
+            <br>
+            <button id="btnAdicionarSlide">Adicionar</button>
+        </div>
+        <button id="btnCarregarSlide">Carregar Slides</button>
+        <ul class="SlideAPP">
 
         </ul>
     </section>
@@ -214,6 +235,7 @@
             document.getElementById('Comentarios').classList.add('hidden');
             document.getElementById('paginaHome').classList.remove('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
+            document.getElementById('configsBannersAPP').classList.add('hidden');
         }
 
         function mostrarCadastro() {
@@ -222,6 +244,7 @@
             document.getElementById('Comentarios').classList.add('hidden');
             document.getElementById('paginaHome').classList.add('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
+            document.getElementById('configsBannersAPP').classList.add('hidden');
         }
 
         function mostrarPainelEditar() {
@@ -230,6 +253,7 @@
             document.getElementById('Comentarios').classList.add('hidden');
             document.getElementById('paginaHome').classList.add('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
+            document.getElementById('configsBannersAPP').classList.add('hidden');
         }
 
         function mostrarComentarios() {
@@ -238,6 +262,16 @@
             document.getElementById('Comentarios').classList.remove('hidden');
             document.getElementById('paginaHome').classList.add('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
+            document.getElementById('configsBannersAPP').classList.add('hidden');
+        }
+
+        function mostrarConfigsBanners() {
+            document.getElementById('cadastroEmpresa').classList.add('hidden');
+            document.getElementById('editarCadastro').classList.add('hidden');
+            document.getElementById('Comentarios').classList.add('hidden');
+            document.getElementById('paginaHome').classList.add('hidden');
+            document.getElementById('cadastroCriado').classList.add('hidden');
+            document.getElementById('configsBannersAPP').classList.remove('hidden');
         }
 
     </script>
