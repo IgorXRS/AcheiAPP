@@ -1,0 +1,37 @@
+.blocoSimples{
+    background: #01000c;
+    width: 300px;
+    height: 80px;
+    color: rgb(134, 134, 134);
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    border-radius: 15px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.blocoSimples:hover {
+    color: rgb(255, 255, 255);
+}
+
+.logoHome {
+    font-size: 29;
+    margin-left: 10px;
+}
+
+.blocoSimples h3{ 
+    margin: 10px;
+    margin-left: 20px;
+}
+
+#icon2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60px;
+    font-size: 20px;
+    
+}

@@ -399,112 +399,265 @@ document.addEventListener('DOMContentLoaded', async function() {
  
      const formEditarCadastro = document.getElementById('form-editarCadastroEmpresa');
 
-formEditarCadastro.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    // Animação de Espera ligada
-    document.getElementById("loadingOverlay").style.display = "block";
+    formEditarCadastro.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        // Animação de Espera ligada
+        document.getElementById("loadingOverlay").style.display = "block";
 
-    // Obter o ID da empresa (você pode obter de onde achar apropriado)
-    const empresaID = document.getElementById('empresaPesquisar').value.trim();
+        // Obter o ID da empresa (você pode obter de onde achar apropriado)
+        const empresaID = document.getElementById('empresaPesquisar').value.trim();
 
-    // Obter os novos valores dos campos do formulário de edição
-    const novoNomeEmpresa = document.querySelector('#editarNomeEmpresa').value;
-    const novoEndereco = document.querySelector('#editarEndereco').value;
-    const novaLocalizacao = document.querySelector('#editarLocalizacao').value;
-    const novoContatoNumber = document.querySelector('#editarContatoNumber').value;
-    const novasCategorias = document.querySelector('#editarCategorias').value;
-    const minhaCheckbox = document.getElementById('whastConfirmeEditar');
-         
-        let temWhastappEdit = '';
-            if (minhaCheckbox.checked) {
-                temWhastappEdit = 'Sim';
-            } else {
-                temWhastappEdit = 'Não';
-            }
+        // Obter os novos valores dos campos do formulário de edição
+        const novoNomeEmpresa = document.querySelector('#editarNomeEmpresa').value;
+        const novoEndereco = document.querySelector('#editarEndereco').value;
+        const novaLocalizacao = document.querySelector('#editarLocalizacao').value;
+        const novoContatoNumber = document.querySelector('#editarContatoNumber').value;
+        const novasCategorias = document.querySelector('#editarCategorias').value;
+        const minhaCheckbox = document.getElementById('whastConfirmeEditar');
+            
+            let temWhastappEdit = '';
+                if (minhaCheckbox.checked) {
+                    temWhastappEdit = 'Sim';
+                } else {
+                    temWhastappEdit = 'Não';
+                }
 
-    // Obter as imagens selecionadas
-    const fotoPerfilFileEdit = document.querySelector('#editarFotoPerfil').files[0];
-    const fotoCapaFileEdit = document.querySelector('#editarFotoCapa').files[0];
+        // Obter as imagens selecionadas
+        const fotoPerfilFileEdit = document.querySelector('#editarFotoPerfil').files[0];
+        const fotoCapaFileEdit = document.querySelector('#editarFotoCapa').files[0];
 
-    // Verificar se os campos do formulário são válidos antes de prosseguir
-    // Adicione aqui a lógica para verificar os campos, se necessário
+        // Verificar se os campos do formulário são válidos antes de prosseguir
+        // Adicione aqui a lógica para verificar os campos, se necessário
 
-    const empresaDoc = await db.collection('empresas').doc(empresaID).get();
-    const empresaData = empresaDoc.data();
-    const fotoPerfilAntiga = empresaData.fotoPerfilURL;
-    const fotoCapaAntiga = empresaData.fotoCapaURL;
-    
-    // Atualizar os dados da empresa no Firestore
+        const empresaDoc = await db.collection('empresas').doc(empresaID).get();
+        const empresaData = empresaDoc.data();
+        const fotoPerfilAntiga = empresaData.fotoPerfilURL;
+        const fotoCapaAntiga = empresaData.fotoCapaURL;
+        
+        // Atualizar os dados da empresa no Firestore
+        try {
+                // Referências para o Firebase Storage
+                const storage = firebase.storage();
+                const storageRef = storage.ref();
+        
+                let fotoPerfilURLEdit = null;
+
+                // Verificar se o campo de seleção da foto de perfil foi preenchido e se é um arquivo válido
+                if (fotoPerfilFileEdit && fotoPerfilFileEdit.type && fotoPerfilFileEdit.name) {
+                    // Criar referência para a imagem do perfil no Storage
+                    const fotoPerfilRef = storageRef.child(`empresas/${empresaData.nomeEmpresa}/fotoPerfil`);
+
+                    // Excluir foto antiga do storage
+                    fotoPerfilRef.delete().then(() => {
+                        console.log('Foto Antiga excluída com sucesso.');
+                    }).catch((error) => {
+                        console.error('Erro ao excluir o arquivo:', error);
+                    });
+
+                    // Fazer upload da imagem do perfil para o Storage
+                    await fotoPerfilRef.put(fotoPerfilFileEdit);
+
+                    // Obter a URL da imagem do perfil
+                    fotoPerfilURLEdit = await fotoPerfilRef.getDownloadURL();
+                } else {
+                    fotoPerfilURLEdit = fotoPerfilAntiga;
+                }
+
+                // Inicializar a variável de URL da imagem de capa
+                let fotoCapaURLEdit = null;
+
+                // Verificar se o campo de seleção da foto de capa foi preenchido e se é um arquivo válido
+                if (fotoCapaFileEdit && fotoCapaFileEdit.type && fotoCapaFileEdit.name) {
+                    // Criar referência para a imagem de capa no Storage
+                    const fotoCapaRef = storageRef.child(`empresas/${empresaData.nomeEmpresa}/fotoCapa`);
+
+                    // Excluir foto antiga do storage
+                    fotoCapaRef.delete().then(() => {
+                        console.log('Foto Antiga excluída com sucesso.');
+                    }).catch((error) => {
+                        console.error('Erro ao excluir o arquivo:', error);
+                    });
+
+                    // Fazer upload da imagem de capa para o Storage
+                    await fotoCapaRef.put(fotoCapaFileEdit);
+
+                    // Obter a URL da imagem de capa
+                    fotoCapaURLEdit = await fotoCapaRef.getDownloadURL();
+                } else {
+                    fotoCapaURLEdit = fotoCapaAntiga;
+                }
+            await db.collection('empresas').doc(empresaID).update({
+                nomeEmpresa: novoNomeEmpresa,
+                endereco: novoEndereco,
+                localizacao: novaLocalizacao,
+                contatoNumber: novoContatoNumber,
+                categorias: novasCategorias,
+                fotoPerfilURL: fotoPerfilURLEdit,
+                fotoCapaURL: fotoCapaURLEdit,
+                temWhastapp: temWhastappEdit,
+            });
+
+            console.log('Dados da empresa atualizados com sucesso.');
+            document.getElementById("loadingOverlay").style.display = "none";
+
+            // Adicione o código para exibir uma mensagem de sucesso ou redirecionar o usuário após a atualização
+        } catch (error) {
+            document.getElementById("loadingOverlay").style.display = "none";
+            console.error('Erro ao atualizar dados da empresa:', error);
+        }
+    });
+
+
+
+// ------------------- Configurar App, Banners e Categorias e Side ------------------------------------------
+
+// Definir listaCategorias no escopo global
+const listaCategorias = document.querySelector('.categoriasAPP');
+
+// Adicionando ouvinte de evento para o botão de carregar categorias
+const btnCarregarCategorias = document.querySelector('#btnCarregarCategorias');
+btnCarregarCategorias.addEventListener('click', carregarCategorias);
+
+// Função para carregar e exibir categorias
+async function carregarCategorias() {
     try {
-            // Referências para o Firebase Storage
-            const storage = firebase.storage();
-            const storageRef = storage.ref();
-    
-            let fotoPerfilURLEdit = null;
+        // Ativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "flex";
 
-            // Verificar se o campo de seleção da foto de perfil foi preenchido e se é um arquivo válido
-            if (fotoPerfilFileEdit && fotoPerfilFileEdit.type && fotoPerfilFileEdit.name) {
-                // Criar referência para a imagem do perfil no Storage
-                const fotoPerfilRef = storageRef.child(`empresas/${empresaData.nomeEmpresa}/fotoPerfil`);
+        // Limpar a lista de categorias
+        listaCategorias.innerHTML = '';
 
-                // Excluir foto antiga do storage
-                fotoPerfilRef.delete().then(() => {
-                    console.log('Foto Antiga excluída com sucesso.');
-                  }).catch((error) => {
-                    console.error('Erro ao excluir o arquivo:', error);
-                  });
+        // Consulta ao Firestore para obter os dados das categorias
+        const querySnapshot = await db.collection('configsAPP').doc('paginaHome').collection('bannerCategorias').get();
 
-                // Fazer upload da imagem do perfil para o Storage
-                await fotoPerfilRef.put(fotoPerfilFileEdit);
+        // Iterar sobre os documentos retornados
+        querySnapshot.forEach((doc) => {
+            const categoria = doc.data();
 
-                // Obter a URL da imagem do perfil
-                fotoPerfilURLEdit = await fotoPerfilRef.getDownloadURL();
-            } else {
-                fotoPerfilURLEdit = fotoPerfilAntiga;
-            }
+            // Criar elemento HTML para a categoria
+            const listItem = document.createElement('li');
+            listItem.classList.add('categoriaItem');
 
-            // Inicializar a variável de URL da imagem de capa
-            let fotoCapaURLEdit = null;
+            const categoriaTitulo = document.createElement('h3');
+            categoriaTitulo.textContent = categoria.categoria;
 
-            // Verificar se o campo de seleção da foto de capa foi preenchido e se é um arquivo válido
-            if (fotoCapaFileEdit && fotoCapaFileEdit.type && fotoCapaFileEdit.name) {
-                // Criar referência para a imagem de capa no Storage
-                const fotoCapaRef = storageRef.child(`empresas/${empresaData.nomeEmpresa}/fotoCapa`);
+            const categoriaImagem = document.createElement('img');
+            categoriaImagem.src = categoria.image;
+            categoriaImagem.alt = categoria.categoria;
 
-                // Excluir foto antiga do storage
-                fotoCapaRef.delete().then(() => {
-                    console.log('Foto Antiga excluída com sucesso.');
-                  }).catch((error) => {
-                    console.error('Erro ao excluir o arquivo:', error);
-                  });
+            // Criar botão de exclusão
+            const btnExcluir = document.createElement('button');
+            btnExcluir.textContent = 'Excluir';
+            btnExcluir.addEventListener('click', () => excluirCategoria(doc.id, categoria.nomeImagem)); // Passar o nome da imagem ao excluir categoria
 
-                // Fazer upload da imagem de capa para o Storage
-                await fotoCapaRef.put(fotoCapaFileEdit);
-
-                // Obter a URL da imagem de capa
-                fotoCapaURLEdit = await fotoCapaRef.getDownloadURL();
-            } else {
-                fotoCapaURLEdit = fotoCapaAntiga;
-            }
-        await db.collection('empresas').doc(empresaID).update({
-            nomeEmpresa: novoNomeEmpresa,
-            endereco: novoEndereco,
-            localizacao: novaLocalizacao,
-            contatoNumber: novoContatoNumber,
-            categorias: novasCategorias,
-            fotoPerfilURL: fotoPerfilURLEdit,
-            fotoCapaURL: fotoCapaURLEdit,
-            temWhastapp: temWhastappEdit,
+            // Adicionar elementos à lista de categorias
+            listItem.appendChild(categoriaTitulo);
+            listItem.appendChild(categoriaImagem);
+            listItem.appendChild(btnExcluir);
+            listaCategorias.appendChild(listItem);
         });
 
-        console.log('Dados da empresa atualizados com sucesso.');
+        // Desativar animação de espera
         document.getElementById("loadingOverlay").style.display = "none";
-
-        // Adicione o código para exibir uma mensagem de sucesso ou redirecionar o usuário após a atualização
     } catch (error) {
+        console.error('Erro ao carregar categorias:', error);
+        // Desativar animação de espera
         document.getElementById("loadingOverlay").style.display = "none";
-        console.error('Erro ao atualizar dados da empresa:', error);
     }
-});
+}
+
+// Função para excluir uma categoria
+async function excluirCategoria(categoriaID, nomeImagem) {
+    try {
+        // Ativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "flex";
+
+        // Referências para o Firebase Storage e Firestore
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const db = firebase.firestore();
+
+        // Referência para a imagem no Storage
+        const imagemRef = storageRef.child(`configs/img/${nomeImagem}`);
+
+        // Excluir a imagem do Storage
+        await imagemRef.delete();
+
+        // Excluir os dados da categoria do Firestore
+        await db.collection('configsAPP/paginaHome/bannerCategorias').doc(categoriaID).delete();
+
+        // Recarregar a lista de categorias para refletir as alterações
+        await carregarCategorias();
+
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    } catch (error) {
+        console.error('Erro ao excluir categoria:', error);
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    }
+}
+
+
+// Adicionar nova Categoria ------------
+
+// Adicionando ouvinte de evento para o botão de adicionar categoria
+const btnAdicionarCategoria = document.querySelector('#btnAdicionarCategoria');
+btnAdicionarCategoria.addEventListener('click', adicionarCategoria);
+
+// Função para adicionar uma nova categoria
+async function adicionarCategoria() {
+    try {
+        // Obter os valores dos campos de entrada
+        const novaCategoriaInput = document.querySelector('#novaCategoriaInput').value.trim();
+        const novaImagemInput = document.querySelector('#novaImagemInput').files[0]; // Obtém o arquivo selecionado
+        const nomeImagem = novaImagemInput.name;
+
+        // Verificar se os campos estão vazios
+        if (!novaCategoriaInput || !novaImagemInput) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        // Ativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "flex";
+
+        // Referências para o Firebase Storage
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+
+        // Criar referência para a nova imagem no Storage
+        const novaImagemRef = storageRef.child(`configs/img/${novaImagemInput.name}`);
+
+        // Fazer upload da nova imagem para o Storage
+        await novaImagemRef.put(novaImagemInput);
+
+        // Obter a URL da nova imagem
+        const novaImagemURL = await novaImagemRef.getDownloadURL();
+
+        // Adicionar a nova categoria ao Firestore
+        await db.collection('configsAPP/paginaHome/bannerCategorias').add({
+            categoria: novaCategoriaInput,
+            image: novaImagemURL,
+            nomeImagem: nomeImagem
+        });
+
+        // Limpar os campos de entrada após adicionar a categoria
+        document.querySelector('#novaCategoriaInput').value = '';
+        document.querySelector('#novaImagemInput').value = '';
+
+        // Recarregar a lista de categorias para exibir a nova categoria adicionada
+        await carregarCategorias();
+
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    } catch (error) {
+        console.error('Erro ao adicionar categoria:', error);
+        // Desativar animação de espera
+        document.getElementById("loadingOverlay").style.display = "none";
+    }
+}
+                 
+ 
 
 });
