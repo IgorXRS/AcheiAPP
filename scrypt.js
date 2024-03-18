@@ -715,8 +715,8 @@ async function carregarSlides() {
     }
 }
 
-// Função para excluir uma categoria
-async function excluirCategoria(categoriaID, nomeImagem) {
+// Função para excluir um slide
+async function excluirSlide(slideID, nomeImagem) {
     try {
         // Ativar animação de espera
         document.getElementById("loadingOverlay").style.display = "flex";
@@ -732,11 +732,11 @@ async function excluirCategoria(categoriaID, nomeImagem) {
         // Excluir a imagem do Storage
         await imagemRef.delete();
 
-        // Excluir os dados da categoria do Firestore
-        await db.collection('configsAPP/paginaHome/bannerCategorias').doc(categoriaID).delete();
+        // Excluir os dados do slide do Firestore
+        await db.collection('configsAPP/paginaHome/slides').doc(slideID).delete();
 
-        // Recarregar a lista de categorias para refletir as alterações
-        await carregarCategorias();
+        // Recarregar a lista de slides para refletir as alterações
+        await carregarSlide();
 
         // Desativar animação de espera
         document.getElementById("loadingOverlay").style.display = "none";
@@ -749,21 +749,34 @@ async function excluirCategoria(categoriaID, nomeImagem) {
 
 
 // Adicionar nova Categoria ------------
+//
+
+
+
+
+
+// CONTINUAR -------------------------- AQUI
+
+
+
+
 
 // Adicionando ouvinte de evento para o botão de adicionar categoria
-const btnAdicionarCategoria = document.querySelector('#btnAdicionarCategoria');
-btnAdicionarCategoria.addEventListener('click', adicionarCategoria);
+const btnAdicionarSlide = document.querySelector('#btnAdicionarSlide');
+btnAdicionarSlide.addEventListener('click', adicionarSlide);
 
 // Função para adicionar uma nova categoria
-async function adicionarCategoria() {
+async function adicionarSlide() {
     try {
         // Obter os valores dos campos de entrada
-        const novaCategoriaInput = document.querySelector('#novaCategoriaInput').value.trim();
-        const novaImagemInput = document.querySelector('#novaImagemInput').files[0]; // Obtém o arquivo selecionado
-        const nomeImagem = novaImagemInput.name;
+        const slideEmpresaID = document.querySelector('#slideEmpresaID').value.trim();
+        const novoTextInput = document.querySelector('#novoTextInput').value.trim();
+        const novotitleInput = document.querySelector('#novotitleInput').value.trim();
+        const novaImagemSlide = document.querySelector('#novaImagemSlide').files[0]; // Obtém o arquivo selecionado
+        const nomeImagem = novaImagemSlide.name;
 
         // Verificar se os campos estão vazios
-        if (!novaCategoriaInput || !novaImagemInput) {
+        if (!novaImagemSlide || !novaImagemSlide) {
             alert('Por favor, preencha todos os campos.');
             return;
         }
@@ -776,27 +789,31 @@ async function adicionarCategoria() {
         const storageRef = storage.ref();
 
         // Criar referência para a nova imagem no Storage
-        const novaImagemRef = storageRef.child(`configs/img/${novaImagemInput.name}`);
+        const novaImagemSlideRef = storageRef.child(`configs/img/${novaImagemSlide.name}`);
 
         // Fazer upload da nova imagem para o Storage
-        await novaImagemRef.put(novaImagemInput);
+        await novaImagemSlideRef.put(novaImagemSlide);
 
         // Obter a URL da nova imagem
-        const novaImagemURL = await novaImagemRef.getDownloadURL();
+        const novaImagemSlideURL = await novaImagemSlideRef.getDownloadURL();
 
-        // Adicionar a nova categoria ao Firestore
-        await db.collection('configsAPP/paginaHome/bannerCategorias').add({
-            categoria: novaCategoriaInput,
-            image: novaImagemURL,
+        // Adicionar a nova slides ao Firestore
+        await db.collection('configsAPP/paginaHome/slides').add({
+            perfilRelacionado: slideEmpresaID,
+            text: novoTextInput,
+            title: novotitleInput,
+            image: novaImagemSlideURL,
             nomeImagem: nomeImagem
         });
 
         // Limpar os campos de entrada após adicionar a categoria
-        document.querySelector('#novaCategoriaInput').value = '';
-        document.querySelector('#novaImagemInput').value = '';
+        document.querySelector('#slideEmpresaID').value = '';
+        document.querySelector('#novoTextInput').value = '';
+        document.querySelector('#novotitleInput').value = '';
+        document.querySelector('#novaImagemSlide').value = '';
 
-        // Recarregar a lista de categorias para exibir a nova categoria adicionada
-        await carregarCategorias();
+        // Recarregar a lista de slides para exibir a novo slide adicionada
+        await carregarSlides();
 
         // Desativar animação de espera
         document.getElementById("loadingOverlay").style.display = "none";
