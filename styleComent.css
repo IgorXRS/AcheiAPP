@@ -158,3 +158,30 @@
     background: rgb(2, 0, 22);
     
 }
+
+
+
+
+.categoriaItem {
+
+}
+
+.categoriaItem > img{
+    width: 300;
+    height: 150;
+    border-radius: 15px;
+    margin-top: -90px;
+}
+
+.categoriaItem > h3{
+    width: 300;
+    height: 150;
+    text-align: center;
+    display: grid;
+    align-items: center;
+    font-size: 35;
+    transform: translateY(60px);
+    color: #fff;
+    text-transform: uppercase;
+    background: rgba(4, 0, 44, 0.404);
+}
