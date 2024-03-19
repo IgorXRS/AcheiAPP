@@ -253,8 +253,8 @@
 }
 
 .categoriaItem > img{
-    width: 300;
-    height: 150;
+    width: 250;
+    height: 130;
     border-radius: 15px;
     margin-top: -130px;
 }
@@ -282,7 +282,7 @@
     border-radius: 5px;
     margin-left: 20px;
     margin-bottom: 20px;
-    transform: translateX(0px);
+    transform: translateX(107px);
 
 }
 
