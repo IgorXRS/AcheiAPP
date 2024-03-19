@@ -260,12 +260,12 @@
 }
 
 .categoriaItem > h3{
-    width: 300;
-    height: 150;
+    width: 250;
+    height: 130;
     text-align: center;
     display: grid;
     align-items: center;
-    font-size: 35;
+    font-size: 30;
     transform: translateY(23px);
     color: #fff;
     text-transform: uppercase;
