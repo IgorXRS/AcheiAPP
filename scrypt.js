@@ -535,7 +535,7 @@ async function carregarCategorias() {
             const categoria = doc.data();
 
             // Criar elemento HTML para a categoria
-            const listItem = document.createElement('li');
+            const listItem = document.createElement('div');
             listItem.classList.add('categoriaItem');
 
             const categoriaTitulo = document.createElement('h3');
@@ -684,15 +684,19 @@ async function carregarSlides() {
             const slides = doc.data();
 
             // Criar elemento HTML para 0 slide
-            const listItem = document.createElement('li');
+            const listItem = document.createElement('div');
             listItem.classList.add('slideItem');
 
-            const slideTitulo = document.createElement('h3');
-            slideTitulo.textContent = slides.title;
+            const slideempresaID = document.createElement('p');
+            listItem.classList.add('ItemID');
+            slideempresaID.textContent = slides.perfilRelacionado;
 
             const slideImagem = document.createElement('img');
             slideImagem.src = slides.image;
             slideImagem.alt = slides.title;
+
+            const slideTitulo = document.createElement('p');
+            slideTitulo.textContent = slides.text;
 
             // Criar botão de exclusão
             const btnExcluir = document.createElement('button');
@@ -700,8 +704,10 @@ async function carregarSlides() {
             btnExcluir.addEventListener('click', () => excluirSlide(doc.id, slides.nomeImagem)); // Passar o nome da imagem ao excluir categoria
 
             // Adicionar elementos à lista de categorias
-            listItem.appendChild(slideTitulo);
+
+            listItem.appendChild(slideempresaID);
             listItem.appendChild(slideImagem);
+            listItem.appendChild(slideTitulo);
             listItem.appendChild(btnExcluir);
             listaSlide.appendChild(listItem);
         });
@@ -736,7 +742,7 @@ async function excluirSlide(slideID, nomeImagem) {
         await db.collection('configsAPP/paginaHome/slides').doc(slideID).delete();
 
         // Recarregar a lista de slides para refletir as alterações
-        await carregarSlide();
+        await carregarSlides();
 
         // Desativar animação de espera
         document.getElementById("loadingOverlay").style.display = "none";
@@ -749,16 +755,6 @@ async function excluirSlide(slideID, nomeImagem) {
 
 
 // Adicionar nova Categoria ------------
-//
-
-
-
-
-
-// CONTINUAR -------------------------- AQUI
-
-
-
 
 
 // Adicionando ouvinte de evento para o botão de adicionar categoria
@@ -797,9 +793,22 @@ async function adicionarSlide() {
         // Obter a URL da nova imagem
         const novaImagemSlideURL = await novaImagemSlideRef.getDownloadURL();
 
+        // Gera Key aleatoria
+        const querySnapshot = await db.collection('configsAPP').doc('paginaHome').collection('slides').get();
+        const existingKeys = querySnapshot.docs.map(doc => doc.data().key);
+
+        let newKey;
+        do {
+            newKey = Math.floor(Math.random() * 10); // Gera um número aleatório de 0 a 9
+        } while (existingKeys.includes(newKey)); // Verifica se o número gerado já existe
+
+        console.log(existingKeys)
+        console.log(newKey)
+
         // Adicionar a nova slides ao Firestore
         await db.collection('configsAPP/paginaHome/slides').add({
             perfilRelacionado: slideEmpresaID,
+            key: newKey,
             text: novoTextInput,
             title: novotitleInput,
             image: novaImagemSlideURL,

@@ -63,6 +63,10 @@
                 <i title="Configurar Banners" class="bi bi-sliders logoHome"></i>
                 <h3>Configurar Banners</h3>
             </div>
+            <div onclick="mostrarconfigsSlide()" class="blocoSimples">
+                <i title="Configurar Slides" class="bi bi-file-earmark-easel logoHome"></i>
+                <h3>Configurar Slides</h3>
+            </div>
             <div class="blocoSimples">
                 <i class="bi bi-coin logoHome"></i>
                 <h3>PLANOS</h3>
@@ -86,7 +90,7 @@
         </ul>
     </section>
 
-    <section class="configsSlideAPP" id="configsSlideAPP">
+    <section class="configsSlideAPP hidden" id="configsSlideAPP">
         <h2>Banners de Slides</h2>
         <div id="adicionarSlide">
             <input type="text" id="slideEmpresaID" placeholder="ID da Empresa...">
@@ -236,6 +240,7 @@
             document.getElementById('paginaHome').classList.remove('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
             document.getElementById('configsBannersAPP').classList.add('hidden');
+            document.getElementById('configsSlideAPP').classList.add('hidden');
         }
 
         function mostrarCadastro() {
@@ -245,6 +250,7 @@
             document.getElementById('paginaHome').classList.add('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
             document.getElementById('configsBannersAPP').classList.add('hidden');
+            document.getElementById('configsSlideAPP').classList.add('hidden');
         }
 
         function mostrarPainelEditar() {
@@ -254,6 +260,7 @@
             document.getElementById('paginaHome').classList.add('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
             document.getElementById('configsBannersAPP').classList.add('hidden');
+            document.getElementById('configsSlideAPP').classList.add('hidden');
         }
 
         function mostrarComentarios() {
@@ -263,6 +270,7 @@
             document.getElementById('paginaHome').classList.add('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
             document.getElementById('configsBannersAPP').classList.add('hidden');
+            document.getElementById('configsSlideAPP').classList.add('hidden');
         }
 
         function mostrarConfigsBanners() {
@@ -272,6 +280,17 @@
             document.getElementById('paginaHome').classList.add('hidden');
             document.getElementById('cadastroCriado').classList.add('hidden');
             document.getElementById('configsBannersAPP').classList.remove('hidden');
+            document.getElementById('configsSlideAPP').classList.add('hidden');
+        }
+
+        function mostrarconfigsSlide() {
+            document.getElementById('cadastroEmpresa').classList.add('hidden');
+            document.getElementById('editarCadastro').classList.add('hidden');
+            document.getElementById('Comentarios').classList.add('hidden');
+            document.getElementById('paginaHome').classList.add('hidden');
+            document.getElementById('cadastroCriado').classList.add('hidden');
+            document.getElementById('configsBannersAPP').classList.add('hidden');
+            document.getElementById('configsSlideAPP').classList.remove('hidden');
         }
 
     </script>

@@ -162,13 +162,13 @@
 
 /* tela de configurações APP*/
 
-#adicionarCategoria, #adicionarSlide {
+#adicionarCategoria {
     border: 1px solid #2f00ff4b;
     border-radius: 5px;
 }
 
 
-.configsBannersAPP, #configsSlideAPP > h2{
+.configsBannersAPP, .configsSlideAPP > h2{
     color: white;
     margin-bottom: 20px;
 }
@@ -214,7 +214,7 @@
 }
 
 
-#novaCategoriaInput, .adicionarSlide > input {
+#adicionarCategoria > input {
     width: 300px;
     border: none;
     border-radius: 5px;
@@ -223,7 +223,7 @@
     margin: 10px;
 }
 
-#adicionarCategoria, #adicionarSlide > input{
+#adicionarSlide > input{
     background: #fff;
     width: 300px;
     border: none;
@@ -233,7 +233,7 @@
     margin: 10px;
 }
 
-.categoriaItem, #SlideAPP > button{
+.categoriaItem > button{
 
     border: 1px solid rgba(255, 255, 255, 0.26);
     background: rgb(2, 0, 22);
@@ -246,20 +246,20 @@
 }
 
 
-.categoriaItem, #SlideAPP > button:hover{
+.categoriaItem > button:hover{
 
     border: 1px solid rgba(255, 255, 255, 0.932);
 
 }
 
-.categoriaItem, #SlideAPP > img{
+.categoriaItem > img{
     width: 300;
     height: 150;
     border-radius: 15px;
     margin-top: -130px;
 }
 
-.categoriaItem, #SlideAPP > h3{
+.categoriaItem > h3{
     width: 300;
     height: 150;
     text-align: center;
@@ -269,6 +269,44 @@
     transform: translateY(23px);
     color: #fff;
     text-transform: uppercase;
+    background: rgba(4, 0, 44, 0.404);
+    text-shadow: #03001f 0.1em 0.1em 0.2em;
+}
+
+.slideItem > button{
+
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    background: rgb(2, 0, 22);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    transform: translateX(107px);
+
+}
+
+
+.slideItem > button:hover{
+
+    border: 1px solid rgba(255, 255, 255, 0.932);
+
+}
+
+.slideItem > img{
+    width: 300;
+    height: 150;
+    border-radius: 15px;
+}
+
+.slideItem > p{
+    width: 300;
+    height: 50;
+    text-align: center;
+    display: grid;
+    align-items: center;
+    font-size: 15;
+    color: #fff;
     background: rgba(4, 0, 44, 0.404);
     text-shadow: #03001f 0.1em 0.1em 0.2em;
 }
