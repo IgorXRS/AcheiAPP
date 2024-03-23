@@ -241,7 +241,7 @@
     padding: 10px;
     border-radius: 5px;
     margin-left: 20px;
-    transform: translateY(-70px);
+    transform: translateY(-45px);
 
 }
 
@@ -253,19 +253,19 @@
 }
 
 .categoriaItem > img{
-    width: 300;
-    height: 150;
+    width: 200;
+    height: 100;
     border-radius: 15px;
-    margin-top: -130px;
+    margin-top: -150px;
 }
 
 .categoriaItem > h3{
-    width: 300;
-    height: 150;
+    width: 200;
+    height: 100;
     text-align: center;
     display: grid;
     align-items: center;
-    font-size: 35;
+    font-size: 26;
     transform: translateY(23px);
     color: #fff;
     text-transform: uppercase;
