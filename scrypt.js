@@ -38,7 +38,6 @@ e.preventDefault();
             
         //alert('Logado com sucesso! '+usuario.email);
         document.querySelector('.login, .background-login').style.display = "none";
-        document.getElementById('cadastroVotacao').classList.remove('hidden');
 
         formLogin.reset();
         
@@ -688,7 +687,7 @@ async function carregarSlides() {
             listItem.classList.add('slideItem');
 
             const slideempresaID = document.createElement('p');
-            listItem.classList.add('ItemID');
+            slideempresaID.classList.add('ItemID');
             slideempresaID.textContent = slides.perfilRelacionado;
 
             const slideImagem = document.createElement('img');
