@@ -35,3 +35,10 @@
     font-size: 20px;
     
 }
+
+#logoAchei{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+

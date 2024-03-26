@@ -14,10 +14,11 @@
 <body>
     <header>
         <div id="icon">
+            <a class="logout" id="btnLogout" href="javascript:void(0);"><i class="bi bi-x-lg"></i></a>
             <i onclick="mostrarCadastro()" title="Cadastra Nova Empresa" class="bi bi-plus-square"></i>
             <i title="Analizar Comentarios" onclick="mostrarComentarios()" class="bi bi-card-checklist"></i>
         </div>
-        <img src="./img/logo01SF.png" alt="Achei">
+        <img id="logoAchei" src="./img/logo01SF.png" alt="Achei">
         <div id="icon2">
             <i title="Voltar" onclick="mostrarPainelEditar()" class="bi bi-pencil-square"></i>
             <i title="Home" onclick="mostrarHome()" class="bi bi-house"></i>
@@ -45,188 +46,202 @@
         </div><!--login-->
     </div><!--background-login-->
 
-    <section  class="home" id="paginaHome">
-        <div>
-            <div onclick="mostrarCadastro()" class="blocoSimples">
-                <i title="Cadastra Nova Empresa" class="bi bi-plus-square logoHome"></i>
-                <h3>CADASTRAR EMPRESA</h3>
+    <div class="logado">
+        <section class="home" id="paginaHome">
+            <div>
+                <div onclick="mostrarCadastro()" class="blocoSimples">
+                    <i title="Cadastra Nova Empresa" class="bi bi-plus-square logoHome"></i>
+                    <h3>CADASTRAR EMPRESA</h3>
+                </div>
+                <div onclick="mostrarPainelEditar()" class="blocoSimples">
+                    <i title="EDITAR" class="bi bi-pencil-square logoHome"></i>
+                    <h3>EDITAR EMPRESA</h3>
+                </div>
+                <div onclick="mostrarComentarios()" class="blocoSimples">
+                    <i title="Analizar Comentarios" class="bi bi-card-checklist logoHome"></i>
+                    <h3>ANALIZAR COMENTÁRIOS</h3>
+                </div>
+                <div onclick="mostrarConfigsBanners()" class="blocoSimples">
+                    <i title="Configurar Banners" class="bi bi-sliders logoHome"></i>
+                    <h3>Configurar Banners</h3>
+                </div>
+                <div onclick="mostrarconfigsSlide()" class="blocoSimples">
+                    <i title="Configurar Slides" class="bi bi-file-earmark-easel logoHome"></i>
+                    <h3>Configurar Slides</h3>
+                </div>
+                <div class="blocoSimples">
+                    <i class="bi bi-coin logoHome"></i>
+                    <h3>PLANOS</h3>
+                </div>
             </div>
-            <div onclick="mostrarPainelEditar()" class="blocoSimples">
-                <i title="EDITAR" class="bi bi-pencil-square logoHome"></i>
-                <h3>EDITAR EMPRESA</h3>
+        </section>
+
+
+        <section class="configsBannersAPP hidden" id="configsBannersAPP">
+            <h2>Banners de Categorias</h2>
+            <div id="adicionarCategoria">
+                <input type="text" id="novaCategoriaInput" placeholder="Nova Categoria">
+                <br>
+                <input type="file" id="novaImagemInput" accept="image/*" placeholder="Selecione uma imagem">
+                <br>
+                <button id="btnAdicionarCategoria">Adicionar</button>
             </div>
-            <div onclick="mostrarComentarios()" class="blocoSimples">
-                <i title="Analizar Comentarios" class="bi bi-card-checklist logoHome"></i>
-                <h3>ANALIZAR COMENTÁRIOS</h3>
+            <button id="btnCarregarCategorias">Carregar Categorias</button>
+            <ul class="categoriasAPP">
+
+            </ul>
+        </section>
+
+        <section class="configsSlideAPP hidden" id="configsSlideAPP">
+            <h2>Banners de Slides</h2>
+            <div id="adicionarSlide">
+                <input type="text" id="slideEmpresaID" placeholder="ID da Empresa...">
+                <br>
+                <input type="text" id="novoTextInput" placeholder="Descrição...">
+                <br>
+                <input type="text" id="novotitleInput" placeholder="Título...">
+                <br>
+                <input type="file" id="novaImagemSlide" accept="image/*" placeholder="Selecione uma imagem">
+                <br>
+                <button id="btnAdicionarSlide">Adicionar</button>
             </div>
-            <div onclick="mostrarConfigsBanners()" class="blocoSimples">
-                <i title="Configurar Banners" class="bi bi-sliders logoHome"></i>
-                <h3>Configurar Banners</h3>
-            </div>
-            <div onclick="mostrarconfigsSlide()" class="blocoSimples">
-                <i title="Configurar Slides" class="bi bi-file-earmark-easel logoHome"></i>
-                <h3>Configurar Slides</h3>
-            </div>
-            <div class="blocoSimples">
-                <i class="bi bi-coin logoHome"></i>
-                <h3>PLANOS</h3>
-            </div>
-        </div>
-    </section>
-        
+            <button id="btnCarregarSlide">Carregar Slides</button>
+            <ul class="SlideAPP">
 
-    <section class="configsBannersAPP hidden" id="configsBannersAPP">
-        <h2>Banners de Categorias</h2>
-        <div id="adicionarCategoria">
-            <input type="text" id="novaCategoriaInput" placeholder="Nova Categoria">
-            <br>
-            <input type="file" id="novaImagemInput" accept="image/*" placeholder="Selecione uma imagem">
-            <br>
-            <button id="btnAdicionarCategoria">Adicionar</button>
-        </div>
-        <button id="btnCarregarCategorias">Carregar Categorias</button>
-        <ul class="categoriasAPP">
+            </ul>
+        </section>
 
-        </ul>
-    </section>
+        <section class="cadastro hidden" id="cadastroEmpresa">
+            <h2>Cadastro de Nova Empresa</h2>
+            <form id="form-cadastroEmpresa">
+                <label for="nomeEmpresa">*Empresa:</label>
+                <input type="text" id="nomeEmpresa" name="nomeEmpresa" placeholder="Digite o nome da empresa..."
+                    required>
+                <br>
+                <label for="endereco">Endereço:</label>
+                <textarea id="endereco" name="endereco" placeholder="Digite o endereço da sua empresa..."></textarea>
+                <br>
+                <label for="localizacao">Localização:</label>
+                <input type="text" id="localizacao" name="localizacao"
+                    placeholder="Cole o link da sua localização aqui...">
+                <br>
+                <label for="contatoNumber">*Contato:</label>
+                <input type="text" id="contatoNumber" name="contatoNumber" placeholder="Digite o número de telefone..."
+                    required>
+                <br>
+                <div class="checkbox">
+                    <input type="checkbox" id="whastConfirmeCadastro">
+                    <label for="contatoNumber">Esse número tem WhatsApp!</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="ComentariosActiver">
+                    <label for="ComentActiver">Ativar comentários!</label>
+                </div>
+                <br>
+                <label for="categorias">*Palavras-Chave:</label>
+                <textarea id="categorias" name="categorias" placeholder="Digite Palavras-Chave..." required></textarea>
+                <br>
 
-    <section class="configsSlideAPP hidden" id="configsSlideAPP">
-        <h2>Banners de Slides</h2>
-        <div id="adicionarSlide">
-            <input type="text" id="slideEmpresaID" placeholder="ID da Empresa...">
-            <br>
-            <input type="text" id="novoTextInput" placeholder="Descrição...">
-            <br>
-            <input type="text" id="novotitleInput" placeholder="Título...">
-            <br>
-            <input type="file" id="novaImagemSlide" accept="image/*" placeholder="Selecione uma imagem">
-            <br>
-            <button id="btnAdicionarSlide">Adicionar</button>
-        </div>
-        <button id="btnCarregarSlide">Carregar Slides</button>
-        <ul class="SlideAPP">
-
-        </ul>
-    </section>
-
-    <section class="cadastro hidden" id="cadastroEmpresa">
-        <h2>Cadastro de Nova Empresa</h2>
-        <form id="form-cadastroEmpresa">
-            <label for="nomeEmpresa">*Empresa:</label>
-            <input type="text" id="nomeEmpresa" name="nomeEmpresa" placeholder="Digite o nome da empresa..." required>
-            <br>
-            <label for="endereco">Endereço:</label>
-            <textarea id="endereco" name="endereco" placeholder="Digite o endereço da sua empresa..."></textarea>
-            <br>
-            <label for="localizacao">Localização:</label>
-            <input type="text" id="localizacao" name="localizacao" placeholder="Cole o link da sua localização aqui...">
-            <br>
-            <label for="contatoNumber">*Contato:</label>
-            <input type="text" id="contatoNumber" name="contatoNumber" placeholder="Digite o número de telefone..." required>
-            <br>
-            <div class="checkbox">
-                <input type="checkbox" id="whastConfirmeCadastro">
-                <label for="contatoNumber">Esse número tem WhatsApp!</label>
-            </div>
-            <br>
-            <label for="categorias">*Palavras-Chave:</label>
-            <textarea id="categorias" name="categorias" placeholder="Digite Palavras-Chave..." required></textarea>
-            <br>
-
-            <label for="fotoPerfil">Foto Perfil:</label>
-            <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*">
-            <br>
-            <label for="fotoCapa">Foto Capa:</label>
-            <input type="file" id="fotoCapa" name="fotoCapa" accept="image/*">
-            <br>
-            <button type="button" id="adicionarCandidato">Adicionar Fotos</button>
-            <br>
-            <div id="listaPreView">
-                <!-- Lista de candidatos adicionados será exibida aqui -->
-            </div>
-            <button id="SalvarCadastro" type="submit">Salvar</button>
-            <br>
-        </form>
-    </section>
+                <label for="fotoPerfil">Foto Perfil:</label>
+                <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*">
+                <br>
+                <label for="fotoCapa">Foto Capa:</label>
+                <input type="file" id="fotoCapa" name="fotoCapa" accept="image/*">
+                <br>
+                <button type="button" id="adicionarCandidato">Adicionar Fotos</button>
+                <br>
+                <div id="listaPreView">
+                    <!-- Lista de candidatos adicionados será exibida aqui -->
+                </div>
+                <button id="SalvarCadastro" type="submit">Salvar</button>
+                <br>
+            </form>
+        </section>
 
 
 
-    <section class="editarCadastro hidden" id="editarCadastro">
-        <h2>Editar Cadastro de Empresa</h2>
-        <p>Digite o ID da empresa que deseja editar e clique em pesquisar.</p>
-        <input id="empresaPesquisar" type="text" placeholder="Digite o ID da Empresa:">
-        <button id="editarEmpresaPesquisar">Pesquisar</button>
-        <form id="form-editarCadastroEmpresa">
-            <label for="nomeEmpresa">*Empresa:</label>
-            <input type="text" id="editarNomeEmpresa" name="NomeEmpresa" placeholder="Digite o nome da empresa..."
-                required>
-            <br>
-            <label for="endereco">Endereço:</label>
-            <textarea id="editarEndereco" name="endereco" placeholder="Digite o endereço da sua empresa..."></textarea>
-            <br>
-            <label for="localizacao">Localização:</label>
-            <input type="text" id="editarLocalizacao" name="localizacao"
-                placeholder="Cole o link da sua localização aqui...">
-            <br>
-            <label for="contatoNumber">*Contato:</label>
-            <input type="text" id="editarContatoNumber" name="contatoNumber"
-                placeholder="Digite o número de telefone..." required>
-            <br>
-            <div class="checkbox">
-                <input type="checkbox" id="whastConfirmeEditar">
-                <label for="contatoNumber">Esse número tem WhatsApp!</label>
-            </div>
-            <br>
-            <label for="categorias">*Palavras-Chave:</label>
-            <textarea id="editarCategorias" name="categorias" placeholder="Digite Palavras-Chave..."
-                required></textarea>
-            <br>
+        <section class="editarCadastro hidden" id="editarCadastro">
+            <h2>Editar Cadastro de Empresa</h2>
+            <p>Digite o ID da empresa que deseja editar e clique em pesquisar.</p>
+            <input id="empresaPesquisar" type="text" placeholder="Digite o ID da Empresa:">
+            <button id="editarEmpresaPesquisar">Pesquisar</button>
+            <form id="form-editarCadastroEmpresa">
+                <label for="nomeEmpresa">*Empresa:</label>
+                <input type="text" id="editarNomeEmpresa" name="NomeEmpresa" placeholder="Digite o nome da empresa..."
+                    required>
+                <br>
+                <label for="endereco">Endereço:</label>
+                <textarea id="editarEndereco" name="endereco"
+                    placeholder="Digite o endereço da sua empresa..."></textarea>
+                <br>
+                <label for="localizacao">Localização:</label>
+                <input type="text" id="editarLocalizacao" name="localizacao"
+                    placeholder="Cole o link da sua localização aqui...">
+                <br>
+                <label for="contatoNumber">*Contato:</label>
+                <input type="text" id="editarContatoNumber" name="contatoNumber"
+                    placeholder="Digite o número de telefone..." required>
+                <br>
+                <div class="checkbox">
+                    <input type="checkbox" id="whastConfirmeEditar">
+                    <label for="contatoNumber">Esse número tem WhatsApp!</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="ComentariosActiverEdit">
+                    <label for="ComentActiver">Ativar comentários!</label>
+                </div>
+                <br>
+                <label for="categorias">*Palavras-Chave:</label>
+                <textarea id="editarCategorias" name="categorias" placeholder="Digite Palavras-Chave..."
+                    required></textarea>
+                <br>
 
-            <label for="fotoPerfil">Foto Perfil:</label>
-            <input type="file" id="editarFotoPerfil" name="fotoPerfil" accept="image/*">
-            <br>
-            <label for="fotoCapa">Foto Capa:</label>
-            <input type="file" id="editarFotoCapa" name="fotoCapa" accept="image/*">
-            <br>
-            <button type="button" id="adicionarListaEditar">Adicionar Fotos</button>
-            <br>
-            <div id="listaPreView">
-                <!-- Lista de candidatos adicionados será exibida aqui -->
-            </div>
-            <button id="SalvarAlteracoes" type="submit">Salvar</button>
-            <br>
-        </form>
-    </section>
+                <label for="fotoPerfil">Foto Perfil:</label>
+                <input type="file" id="editarFotoPerfil" name="fotoPerfil" accept="image/*">
+                <br>
+                <label for="fotoCapa">Foto Capa:</label>
+                <input type="file" id="editarFotoCapa" name="fotoCapa" accept="image/*">
+                <br>
+                <button type="button" id="adicionarListaEditar">Adicionar Fotos</button>
+                <br>
+                <div id="listaPreView">
+                    <!-- Lista de candidatos adicionados será exibida aqui -->
+                </div>
+                <button id="SalvarAlteracoes" type="submit">Salvar</button>
+                <br>
+            </form>
+        </section>
 
-    <section class="Comentarios hidden" id="Comentarios">
-        <h2>Analizar Comentários!</h2>
+        <section class="Comentarios hidden" id="Comentarios">
+            <h2>Analizar Comentários!</h2>
 
-        <p>Aqui você pode ativar, desativar e excluir comentários. Pela caixa de texto
-            você pode pesquisar os comentarios de uma empresa especifica, ou pode filtrar 
-            por comentarios ativados e desativados.
-        </p>
-        <input type="text" id="inputEmpresaID" placeholder="Digite o ID da empresa">
+            <p>Aqui você pode ativar, desativar e excluir comentários. Pela caixa de texto
+                você pode pesquisar os comentarios de uma empresa especifica, ou pode filtrar
+                por comentarios ativados e desativados.
+            </p>
+            <input type="text" id="inputEmpresaID" placeholder="Digite o ID da empresa">
 
-        <select id="statusFilter">
-            <option id="statusFalse" value="statusFalse">Desativado</option>
-            <option id="statusTrue" value="statusTrue">Ativado</option>
-            <option id="statusTodos" value="statusTodos">Todos</option>
-        </select>
-        <button id="statusFilterBtn" onclick="carregarComentarios();">Filtrar</button>
-        <ul class="listaNovosComentarios">
-            <li>
-                <!--Comentarios List-->
-            </li>
-        </ul>
- </section>
+            <select id="statusFilter">
+                <option id="statusFalse" value="statusFalse">Desativado</option>
+                <option id="statusTrue" value="statusTrue">Ativado</option>
+                <option id="statusTodos" value="statusTodos">Todos</option>
+            </select>
+            <button id="statusFilterBtn" onclick="carregarComentarios();">Filtrar</button>
+            <ul class="listaNovosComentarios">
+                <li>
+                    <!--Comentarios List-->
+                </li>
+            </ul>
+        </section>
 
-    <section class="cadastroCriado hidden" id="cadastroCriado">
-        <h2>Cadastro Criada com Sucesso!</h2>
+        <section class="cadastroCriado hidden" id="cadastroCriado">
+            <h2>Cadastro Criada com Sucesso!</h2>
 
 
 
-        <button onclick="copiarLink2()" id="buttonLink2">Fechar</button>
-    </section>
+            <button onclick="copiarLink2()" id="buttonLink2">Fechar</button>
+        </section>
+    </div><!--Logado-->
 
     <footer>
         <P>© Copyright 2024 DEVIX - All Rights Reserved</P>
@@ -242,6 +257,7 @@
             document.getElementById('configsBannersAPP').classList.add('hidden');
             document.getElementById('configsSlideAPP').classList.add('hidden');
         }
+        
 
         function mostrarCadastro() {
             document.getElementById('cadastroEmpresa').classList.remove('hidden');
