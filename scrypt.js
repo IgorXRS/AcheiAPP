@@ -658,6 +658,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             // Obter os valores dos campos de entrada
             const novaCategoriaInput = document.querySelector('#novaCategoriaInput').value.trim();
+            const indexPrioriNovo = document.querySelector('#indexPrioriNovo').value.trim();
             const novaImagemInput = document.querySelector('#novaImagemInput').files[0]; // Obtém o arquivo selecionado
             const nomeImagem = novaImagemInput.name;
 
@@ -686,12 +687,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Adicionar a nova categoria ao Firestore
             await db.collection('configsAPP/paginaHome/bannerCategorias').add({
                 categoria: novaCategoriaInput,
+                indexPriori: indexPrioriNovo,
                 image: novaImagemURL,
                 nomeImagem: nomeImagem
             });
 
             // Limpar os campos de entrada após adicionar a categoria
             document.querySelector('#novaCategoriaInput').value = '';
+            document.querySelector('#indexPrioriNovo').value = '';
             document.querySelector('#novaImagemInput').value = '';
 
             // Recarregar a lista de categorias para exibir a nova categoria adicionada
