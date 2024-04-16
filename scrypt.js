@@ -245,6 +245,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Limpar o formulário
             formCadastro.reset();
 
+            // Registrar id de autalização de dados
+            updateConfig();
+
             // Adicione o código para redirecionar ou fazer outras ações após o sucesso do envio.
 
         } catch (error) {
@@ -268,6 +271,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Função para obter e exibir comentários
     async function carregarComentarios(empresaID) {
         try {
+
+
 
             // Animação de Espera desligada
             document.getElementById("loadingOverlay").style.display = "flex";
@@ -545,6 +550,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 comentarios: comentariosEdit
             });
 
+            // Registrar id de autalização de dados
+            updateConfig();
+
             console.log('Dados da empresa atualizados com sucesso.');
             document.getElementById("loadingOverlay").style.display = "none";
 
@@ -574,6 +582,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             // Limpar a lista de categorias
             listaCategorias.innerHTML = '';
+
 
             // Consulta ao Firestore para obter os dados das categorias
             const querySnapshot = await db.collection('configsAPP').doc('paginaHome').collection('bannerCategorias').get();
@@ -637,6 +646,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Recarregar a lista de categorias para refletir as alterações
             await carregarCategorias();
 
+            // Registrar id de autalização de dados
+            updateConfig();
+
             // Desativar animação de espera
             document.getElementById("loadingOverlay").style.display = "none";
         } catch (error) {
@@ -699,6 +711,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             // Recarregar a lista de categorias para exibir a nova categoria adicionada
             await carregarCategorias();
+
+            // Registrar id de autalização de dados
+            updateConfig();
 
             // Desativar animação de espera
             document.getElementById("loadingOverlay").style.display = "none";
@@ -795,6 +810,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Recarregar a lista de slides para refletir as alterações
             await carregarSlides();
 
+            // Registrar id de autalização de dados
+            updateConfig();
+
             // Desativar animação de espera
             document.getElementById("loadingOverlay").style.display = "none";
         } catch (error) {
@@ -874,6 +892,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             // Recarregar a lista de slides para exibir a novo slide adicionada
             await carregarSlides();
+            // Registrar id de autalização de dados
+            updateConfig();
 
             // Desativar animação de espera
             document.getElementById("loadingOverlay").style.display = "none";
@@ -884,6 +904,36 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
+    // Função para ativar atualização de dados do usuarios
 
+    async function updateConfig() {
+        try {
+
+            const querySnapshot = await db.collection('configsAPP').doc('updateVery').get();
+            const dataQuery = querySnapshot.data();
+
+            // Extrair o número da string atual
+            const currentNumber = parseInt(dataQuery.update.replace('up', ''));
+
+            // Incrementar o número
+            const nextNumber = currentNumber + 1;
+
+            // Construir a nova string com o número incrementado
+            const nextUpdateValue = `up${nextNumber}`;
+
+            // Atualizar o campo no Firestore
+            await db.collection('configsAPP').doc('updateVery').update({
+                update: nextUpdateValue
+            });
+
+            console.log('Valor de "update" atualizado com sucesso:', nextUpdateValue);
+
+        } catch (error) {
+            console.error('Erro ao determinar atualização:', error);
+        }
+    }
 
 });
+
+
+
