@@ -39,6 +39,7 @@ formLogin.addEventListener('submit', (e) => {
             //alert('Logado com sucesso! '+usuario.email);
             document.querySelector('.login, .background-login').style.display = "none";
             document.querySelector('.logado, .logout').style.display = "block";
+            document.getElementById("loadingOverlay").style.display = "none";
 
             formLogin.reset();
 
@@ -60,9 +61,11 @@ firebase.auth().onAuthStateChanged((val) => {
 
         document.querySelector('.login, .background-login').style.display = "none";
         document.querySelector('.container-login, .logado, .logout').style.display = "block";
+        document.getElementById("loadingOverlay").style.display = "none";
 
 
     }
+    document.getElementById("loadingOverlay").style.display = "none";
 });
 
 
@@ -927,9 +930,11 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
 
             console.log('Valor de "update" atualizado com sucesso:', nextUpdateValue);
+            document.getElementById("loadingOverlay").style.display = "none";
 
         } catch (error) {
             console.error('Erro ao determinar atualização:', error);
+            document.getElementById("loadingOverlay").style.display = "none";
         }
     }
 
